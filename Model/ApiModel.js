@@ -25,8 +25,13 @@ const schema = new mongoose.Schema({
     comments: {
         type: Array
     },
+    status: {
+        type: String,
+    },
     accessHistory: Object,
     projectId: String,
+},{
+    timestamps:true
 })
 
 

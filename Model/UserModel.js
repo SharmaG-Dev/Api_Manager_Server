@@ -2,13 +2,13 @@ const mongoose = require('mongoose')
 
 
 const schema = new mongoose.Schema({
-    avatar:{
-        type:String
+    avatar: {
+        type: String
     },
     username: {
         type: String
     },
-    Name: {
+    name: {
         type: String,
     },
     password: {
@@ -17,6 +17,9 @@ const schema = new mongoose.Schema({
     designation: {
         type: String
     },
+    assignedProjects: Array
+}, {
+    timestamps: true
 })
 
 
