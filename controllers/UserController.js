@@ -36,23 +36,22 @@ const GetUserSignup = async (req, res) => {
 
 
 const GetUserLogin = async (req, res) => {
-    const { username, password } = req.query;
 
+    const { username, password } = req.query;
     try {
         const isExist = await UserModel.findOne({ username: username })
         if (!isExist) return res.status(404).json({ error: true, message: `No user Found ${username}` })
 
         // compare the password  
-        const isMatched = Dcrypt(isExist.password, process.env.KEY)
-        const match = isMatched === password
-        if (!match) return res.status(400).json({ error: true, message: "Password Incorrect" })
+        const isMatched = Dcrypt(isExist.password, process.env.KEY) === password
+        if (!isMatched) return res.status(400).json({ error: true, message: "Password Incorrect" })
 
-        const { password, ...rest } = isExist;
+        isExist.password.remove()
 
         // generate the jwt
-        const accessToken = jwt.sign(rest, process.env.SECRETTOKEN)
+        const accessToken = jwt.sign(isExist, process.env.SECRETTOKEN)
         res.header('accessToken', accessToken)
-        res.status(200).json({ error: false, data: rest, message: `Welcome ${isExist.name}` })
+        res.status(200).json({ error: false, data: isExist, message: `Welcome ${isExist.name}` })
     } catch (error) {
         res.status(500).json({ error })
     }
@@ -126,5 +125,5 @@ const GetALlUser = async (req, res) => {
 }
 
 
-module.exports = { GetUserSignup, GetUserLogin }
+module.exports = { GetUserSignup, GetUserLogin, GetUpdateTheUser, GetDeleteAllUser, DeleteUserById, GetUserById, GetALlUser }
 

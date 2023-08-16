@@ -5,8 +5,11 @@ const schema = new mongoose.Schema({
     colaborated: Array,
     projectStatus: String,
     accessHistory: Object,
+    projectOwnerId: String,
 }, {
     timestamps: true
 })
 
 const ProjecModel = mongoose.model("Projects", schema)
+
+module.exports = ProjecModel;
